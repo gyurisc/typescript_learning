@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
+// just trying out dot function 
 
 const users = [
     { name: 'Sam', age: 30 },
