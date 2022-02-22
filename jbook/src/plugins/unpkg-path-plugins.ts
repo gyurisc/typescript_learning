@@ -13,6 +13,14 @@ export const unpkgPathPlugin = () => {
           return { path: args.path, namespace: 'a' };
         }          
         
+        if(args.path.include('./') || args.path.include('../'))
+        {
+          return {
+            namespace: 'a',
+            path: new URL(args.path, args.importer + '/').href
+          };
+        }
+
         return { 
           path: `https://unpkg.com/${args.path}`, 
           namespace: 'a' 
