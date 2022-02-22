@@ -17,7 +17,7 @@ export const unpkgPathPlugin = () => {
         {
           return {
             namespace: 'a',
-            path: new URL(args.path, args.importer + '/').href
+            path: new URL(args.path, 'https://unpkg.com' + args.resolveDir + '/').href,
           };
         }
 
@@ -34,16 +34,18 @@ export const unpkgPathPlugin = () => {
           return {
             loader: 'jsx',
             contents: `
-              import message from 'tiny-test-pkg';
+              import message from 'nested-test-pkg';
               console.log(message);
             `,
           };
         } 
 
-        const { data } = await axios.get(args.path);
+        const { data, request } = await axios.get(args.path);
+        console.log(request);
         return {
           loader: 'jsx', 
           contents: data, 
+          resolveDir: new URL('./', request.responseURL).pathname
         };
       });
     },
