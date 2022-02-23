@@ -13,7 +13,7 @@ export const unpkgPathPlugin = () => {
           return { path: args.path, namespace: 'a' };
         }          
         
-        if(args.path.include('./') || args.path.include('../'))
+        if(args.path.includes('./') || args.path.includes('../'))
         {
           return {
             namespace: 'a',
@@ -34,7 +34,7 @@ export const unpkgPathPlugin = () => {
           return {
             loader: 'jsx',
             contents: `
-              import message from 'nested-test-pkg';
+              import message from 'react';
               console.log(message);
             `,
           };
