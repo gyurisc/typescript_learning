@@ -38,24 +38,23 @@ export const unpkgPathPlugin = () => {
 
       build.onLoad({ filter: /.*/ }, async (args: any) => {
         console.log('onLoad', args);
- 
+
         if (args.path === 'index.js') {
           return {
             loader: 'jsx',
             contents: `
-              import React, { useState} from 'react';
-              import ReactDOM from 'react-dom';
-              
-              console.log(react, useState, reactDOM);
+              import React, { useState } from 'react-select';
+              console.log(React, useState);
             `,
           };
-        } 
+        }
 
         // Check to see if we have already fetched this file
         // and if it is in the cache
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
 
-        if(cachedResult) {
+        // if it is, return it immediately
+        if (cachedResult) {
           return cachedResult;
         }
 
