@@ -3,15 +3,15 @@ import {useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 
-function App() {
+const App = () => {
   const ref = useRef<any>();
   const [input, setInput] = useState('');
   const [code, setCode] = useState('');
 
   const startService = async () => {
     ref.current = await esbuild.startService({
-      worker: true, 
-      wasmURL: '/esbuild.wasm'
+      worker: true,
+      wasmURL: '/esbuild.wasm',
     });
   }; 
 

@@ -1,5 +1,11 @@
 import * as esbuild from 'esbuild-wasm';
- import axios from 'axios'; 
+import axios from 'axios'; 
+import localForage from 'localforage';
+
+const fileCache = localForage.createInstance({
+  name: 'filecache',
+});
+
 
 export const unpkgPathPlugin = () => {
   return {
@@ -17,16 +23,19 @@ export const unpkgPathPlugin = () => {
         {
           return {
             namespace: 'a',
-            path: new URL(args.path, 'https://unpkg.com' + args.resolveDir + '/').href,
+            path: new URL(
+              args.path,
+              'https://unpkg.com' + args.resolveDir + '/'
+            ).href,
           };
         }
 
-        return { 
-          path: `https://unpkg.com/${args.path}`, 
-          namespace: 'a' 
-        };        
+        return {
+          namespace: 'a',
+          path: `https://unpkg.com/${args.path}`,
+        };
       });
- 
+
       build.onLoad({ filter: /.*/ }, async (args: any) => {
         console.log('onLoad', args);
  
@@ -34,21 +43,35 @@ export const unpkgPathPlugin = () => {
           return {
             loader: 'jsx',
             contents: `
-              const react = require('react');
-              const react = require('react-dom');
-
-              console.log(react, reactDOM);
+              import React, { useState} from 'react';
+              import ReactDOM from 'react-dom';
+              
+              console.log(react, useState, reactDOM);
             `,
           };
         } 
 
+        // Check to see if we have already fetched this file
+        // and if it is in the cache
+        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
+
+        if(cachedResult) {
+          return cachedResult;
+        }
+
         const { data, request } = await axios.get(args.path);
         console.log(request);
-        return {
+
+        const result : esbuild.OnLoadResult = {
           loader: 'jsx', 
           contents: data, 
           resolveDir: new URL('./', request.responseURL).pathname
         };
+
+        // store response in cache 
+        await fileCache.setItem(args.path, result);
+        
+        return result;
       });
     },
   };
