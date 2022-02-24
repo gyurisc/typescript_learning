@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "@monaco-editor/react": "3.7.5",
     "axios": "^0.26.0",
-    "create-react-app": "^5.0.0"
+    "create-react-app": "^5.0.0",
+    "localforage": "^1.10.0"
   }
 }
