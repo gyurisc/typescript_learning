@@ -3,11 +3,13 @@ import {useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
+import CodeEditor from './components/code-editor';
 
 const App = () => {
   const ref = useRef<any>();
   const iframe = useRef<any>();
   const [input, setInput] = useState('');
+  const [code, setCode] = useState('');
 
   const startService = async () => {
     ref.current = await esbuild.startService({
@@ -48,7 +50,13 @@ const App = () => {
         <div id="root"></div>
         <script>
           window.addEventListener('message', (event) => {
-            eval(event.data);
+            try {
+              eval(event.data);
+            } catch (err) {
+              const root = document.querySelector('#root');
+              root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
+              console.error(err);
+            }
           }, false);
         </script>
       </body>
@@ -57,6 +65,10 @@ const App = () => {
 
   return (
     <div>
+      <CodeEditor
+        initialValue="const a = 1;"
+        onChange={(value) => setInput(value)}
+      />
       <textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
