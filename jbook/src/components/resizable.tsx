@@ -21,6 +21,9 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       timer = setTimeout(() => {
         setInnerHeight(window.innerHeight);
         setInnerWidth(window.innerWidth);
+        if (window.innerWidth * 0.75 < width) {
+          setWidth(window.innerWidth * 0.75);
+        }
       }, 100);
     };
     window.addEventListener('resize', listener);
@@ -28,7 +31,7 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     return () => {
       window.removeEventListener('resize', listener);
     };
-  }, []);
+  }, [width]);
 
   if (direction === 'horizontal') {
     resizableProps = {
@@ -36,15 +39,11 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       minConstraints: [innerWidth * 0.2, Infinity],
       maxConstraints: [innerWidth * 0.75, Infinity],
       height: Infinity,
-      width: width,
+      width,
       resizeHandles: ['e'],
       onResizeStop: (event, data) => {
         setWidth(data.size.width);
-
-        if(window.innerWidth * 0.75 < width) {
-          setWidth(window.innerWidth * 0.75);
-        }
-      }
+      },
     };
   } else {
     resizableProps = {
