@@ -8,7 +8,7 @@ interface AddCellProps {
 
 const AddCell: React.FC<AddCellProps> = ({ forceVisible, nextCellId }) => {
   return (
-    <div>add-cell</div>
+    <div></div>
   )
 }
 
