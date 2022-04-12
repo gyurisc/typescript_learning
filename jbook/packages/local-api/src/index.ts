@@ -1,6 +1,9 @@
+import express from 'express';
+
 export const serve = (port: number, filename: string, dir: string) => {
-    console.log('Server is listening...');
-    console.log('serving/fetching cells from', filename);
-    console.log('dir: ', dir);
-    console.log('on port', port);
+    const app = express();
+
+    app.listen(port, () => {
+        console.log('listening on port', port);
+    });
 };
