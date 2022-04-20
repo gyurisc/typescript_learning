@@ -20,6 +20,7 @@
     "@types/cors": "^2.8.12",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "http-proxy-middleware": "^2.0.4"
+    "http-proxy-middleware": "^2.0.4",
+    "local-client": "^0.1.0"
   }
 }
