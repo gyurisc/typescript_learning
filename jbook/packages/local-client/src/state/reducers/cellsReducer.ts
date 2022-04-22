@@ -45,7 +45,6 @@ const reducer = produce((state: CellsState = initialState, action: Action): Cell
       return state;
     case ActionType.UPDATE_CELL:
       const { id, content } = action.payload;
-
       state.data[id].content = content;
 
       return state;
