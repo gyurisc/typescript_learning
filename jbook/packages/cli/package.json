@@ -2,7 +2,7 @@
   "name": "jsnote-kris",
   "version": "1.0.0",
   "description": "",
-  "bin":"dist/index.js",
+  "bin": "dist/index.js",
   "publishCOnfig": {
     "access": "public"
   },
@@ -11,17 +11,19 @@
   ],
   "scripts": {
     "start": "tsc --watch --preserveWatchOutput",
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "esbuild src/index.ts --platform=node --outfile=dist/index.js --bundle --minify --define:process.env.NODE_ENV=\\\"production\\\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^9.1.0",
-    "@krisgy/local-api": "^1.0.0"
+    "@krisgy/local-client" : "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
+    "@krisgy/local-api": "^1.0.0",
+    "commander": "^9.1.0",    
+    "esbuild": "0.8.26",
     "typescript": "^4.6.3"
   }
 }
