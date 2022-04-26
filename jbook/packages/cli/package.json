@@ -1,16 +1,24 @@
 {
-  "name": "cli",
+  "name": "jsnote-kris",
   "version": "1.0.0",
   "description": "",
+  "bin":"dist/index.js",
+  "publishCOnfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "tsc --watch --preserveWatchOutput"
+    "start": "tsc --watch --preserveWatchOutput",
+    "prepublishOnly": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "commander": "^9.1.0",
-    "local-api": "^1.0.0"
+    "@krisgy/local-api": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
